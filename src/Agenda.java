@@ -1,15 +1,15 @@
-import com.sun.xml.internal.ws.server.ServerRtException;
-
 import java.util.*;
 
-public class Agenda {
+public class Agenda extends ContactGroup {
+
+
     private Map<String, ContactGroup> agenda;
-   // private Set<ContactGroup> contactGroups = new TreeSet<ContactGroup>();
+    // private Set<ContactGroup> contactGroups = new TreeSet<ContactGroup>();
     private List<Contact> contactGroup = new ArrayList<>();
-   // private Contact c= new Contact();
+    // private Contact c= new Contact();
     Scanner sc = new Scanner(System.in);
 
-///////////////////////
+    ///////////////////////
     public Agenda() {
         this.agenda = new TreeMap<>();
     }
@@ -18,69 +18,58 @@ public class Agenda {
         return agenda;
     }
 
-    public void addContact() {
-        System.out.println("Enter first name");
-        String firstName = sc.nextLine();
-        System.out.println("Enter last name");
-        String lastName = sc.nextLine();
-//        System.out.println("Enter prefix(Ex. RO, GR, etc)");
-        System.out.println("Enter the number");
-        String number = sc.nextLine();
-        Contact c = new Contact(firstName, lastName, number);
-//        System.out.println(c);
-        addContactGroup(c);
-    }
+    public void addContact(String firstName, String lastName, String number) {
+        Contact contact = new Contact(firstName, lastName, number);
 
-    private void addContactGroup(Contact contact){
-//        Set<Contact> contactSet=new TreeSet<Contact>();
-//        contactSet.add(contact);
-//        ContactGroup contactGroup=new ContactGroup(contactSet);
+        String firstLetter = lastName.substring(0, 1);
+        ContactGroup contactGroup = agenda.get(firstLetter);
 
-        ContactGroup contactGroup=new ContactGroup();
-        contactGroup.getContactGroup().add(contact);
-
-    }
-
-
-
-//    private List<Contact> addContactGroup() {
-//        System.out.println("Enter first name");
-//        String firstName = sc.nextLine();
-//        System.out.println("Enter last name");
-//        String lastName = sc.nextLine();
-//        System.out.println("Enter the number");
-//        String number = sc.nextLine();
-//        Contact c = new Contact(firstName, lastName, number);
-////        for (Contact c : contactGroup) {
-//        if ((c.getFirstName().compareTo(firstName) == -1
-//                || c.getFirstName().compareTo(firstName) == 0) && (c.getLastName().compareTo(lastName) == -1
-//                || c.getLastName().compareTo(lastName) == 0) && (c.getNumber().compareTo(number) == -1)
-//                || c.getNumber().compareTo(number) == 0) {
-//            contactGroup.add(c);
-//        }
-//            System.out.println(c);
-//        }
-//
-//        return contactGroup;
-//    }
-
-//    public void showContactGroup() {
-//        for (Contact c : addContactGroup()) {
-//            System.out.println(c);
-//        }
-//    }
-
-    public List<Contact> deleteContact() {
-        System.out.println("Enter the first name:");
-        String firstName = sc.nextLine();
-        System.out.println("Enter the last name:");
-        String lastName = sc.nextLine();
-        for (Contact c : contactGroup) {
-            if (c.getFirstName().equals(firstName) && c.getLastName().equals(lastName))
-                contactGroup.remove(c);
+        // caz 1: nu exista contact group pentru litera numelui de familie a contactului
+        if (contactGroup == null) {
+            // creem un nou contact group si-l asociem key-ului firstLetter
+            contactGroup = new ContactGroup();
+            agenda.put(firstLetter, contactGroup);
         }
-        return contactGroup;
+
+        // altfel, adaugam direct contactul
+        contactGroup.addContact(contact);
+    }
+
+    public void deleteContact(Contact contact) {
+        String firstLetter = contact.getLastName().substring(0, 1);
+
+        ContactGroup contactGroup = agenda.get(firstLetter);
+
+        if (contactGroup.getContactGroup().contains(contact)) {
+            contactGroup.getContactGroup().remove(contact);
+
+        } else {
+            System.out.println("cant find contact: " + contact.getFirstName() + contact.getLastName());
+        }
     }
 
 
+    public void editContact(Contact contact) {
+        String firstLetter = contact.getLastName().substring(0, 1);
+
+        ContactGroup contactGroup = agenda.get(firstLetter);
+
+        if (contactGroup.getContactGroup().contains(contact)) {
+            contactGroup.setLastName(sc.next());
+            contactGroup.setFirstName(sc.next());
+            contactGroup.setNumber(sc.next());
+        }
+    }
+    public void showContacts(){
+        System.out.println("huehue");
+        for (Map.Entry<String, ContactGroup> entry:agenda.entrySet()) {
+            System.out.println(entry.getKey());
+            ContactGroup contactGroup=entry.getValue();
+            for(Contact contact:contactGroup.getContactGroup()){
+                System.out.println(contact.toString()+"kek");
+            }
+        }
+    }
 }
+
+

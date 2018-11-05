@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.Set;
 
 
-public class ContactGroup extends Contact  {
+public class ContactGroup extends Contact implements Comparable  {
 
     public Set<Contact> contactGroup ;
 
@@ -41,4 +41,8 @@ public class ContactGroup extends Contact  {
 
     }
 
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
 }

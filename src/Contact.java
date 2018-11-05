@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class Contact {
+public class Contact implements Comparable{
     private String lastName;
     private String firstName;
     private String number;
@@ -70,5 +70,10 @@ public class Contact {
                 ", number='" + number + '\'' +
                 ", firstLetter='" + firstLetter + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 }

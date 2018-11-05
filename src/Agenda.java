@@ -18,21 +18,23 @@ public class Agenda extends ContactGroup {
         return agenda;
     }
 
-    public void addContact(String firstName, String lastName, String number) {
-        Contact contact = new Contact(firstName, lastName, number);
+    public void addContact(String lastName, String firstName, String number) {
+        Contact contact = new Contact(lastName, firstName, number);
 
         String firstLetter = lastName.substring(0, 1);
         ContactGroup contactGroup = agenda.get(firstLetter);
 
         // caz 1: nu exista contact group pentru litera numelui de familie a contactului
         if (contactGroup == null) {
-            // creem un nou contact group si-l asociem key-ului firstLetter
+            // creem un nou contact daca nu exista pt keya cautata
             contactGroup = new ContactGroup();
-            agenda.put(firstLetter, contactGroup);
+
         }
 
         // altfel, adaugam direct contactul
         contactGroup.addContact(contact);
+        agenda.put(firstLetter, contactGroup);
+        System.out.println(agenda.size() + " marimea agendei dupa adaugare");
     }
 
     public void deleteContact(Contact contact) {
@@ -60,14 +62,22 @@ public class Agenda extends ContactGroup {
             contactGroup.setNumber(sc.next());
         }
     }
-    public void showContacts(){
-        System.out.println("huehue");
-        for (Map.Entry<String, ContactGroup> entry:agenda.entrySet()) {
-            System.out.println(entry.getKey());
-            ContactGroup contactGroup=entry.getValue();
-            for(Contact contact:contactGroup.getContactGroup()){
-                System.out.println(contact.toString()+"kek");
-            }
+
+    public void showContacts() {
+//        for (Map.Entry<String, ContactGroup> entry : agenda.entrySet()) {
+//            System.out.println(entry.getKey());
+//            ContactGroup contactGroup = entry.getValue();
+//            for (Contact contact : contactGroup.getContactGroup()) {
+//                System.out.println(contact.toString());
+//                // printeaza un singur contact pe key
+//            }
+//        }
+        for (Map.Entry<String, ContactGroup> entry : agenda.entrySet()) {
+
+            System.out.println("\n" + entry.getKey());
+
+            entry.getValue().getContactGroup().forEach(System.out::println);
+
         }
     }
 }

@@ -1,30 +1,19 @@
-import java.util.Comparator;
-import java.util.TreeSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 
 
-public class ContactGroup extends Contact implements Comparable  {
+public class ContactGroup {
 
-    public Set<Contact> contactGroup ;
-
-    public ContactGroup() {
-
-        this.contactGroup = new TreeSet<Contact>();
-    }
-
-
+    public Set<Contact> contactGroup = new TreeSet<>();
 
     public Set<Contact> getContactGroup() {
         return contactGroup;
     }
 
     public void addContact(Contact contact) {
-
         contactGroup.add(contact);
-
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -36,13 +25,12 @@ public class ContactGroup extends Contact implements Comparable  {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(contactGroup);
-
     }
 
-    @Override
-    public int compareTo(Object o) {
-        return 0;
+    public void showContactGroup() {
+        for (Contact contact : contactGroup) {
+            System.out.println(contact.toString());
+        }
     }
 }

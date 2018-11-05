@@ -1,10 +1,10 @@
 import java.util.Objects;
 
-public class Contact implements Comparable{
+public class Contact implements Comparable<Contact> {
     private String lastName;
     private String firstName;
     private String number;
-    private String firstLetter;
+
 
     public Contact() {
     }
@@ -13,7 +13,7 @@ public class Contact implements Comparable{
         this.lastName = lastName;
         this.firstName = firstName;
         this.number = phoneNumber;
-        this.firstLetter=getFirstLetter(lastName);
+
     }
 
     public String getLastName() {
@@ -40,9 +40,8 @@ public class Contact implements Comparable{
         this.number = number;
     }
 
-    public String getFirstLetter(String text) {
-        String firstLetter = Character.toString(text.charAt(0));
-        return firstLetter;
+    public String getFirstLetter() {
+        return lastName.substring(0, 1).toUpperCase();
     }
 
     @Override
@@ -52,14 +51,13 @@ public class Contact implements Comparable{
         Contact contact = (Contact) o;
         return Objects.equals(lastName, contact.lastName) &&
                 Objects.equals(firstName, contact.firstName) &&
-                Objects.equals(number, contact.number) &&
-                Objects.equals(firstLetter, contact.firstLetter);
+                Objects.equals(number, contact.number);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(lastName, firstName, number, firstLetter);
+        return Objects.hash(lastName, firstName, number);
     }
 
     @Override
@@ -68,12 +66,21 @@ public class Contact implements Comparable{
                 "lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", number='" + number + '\'' +
-                ", firstLetter='" + firstLetter + '\'' +
                 '}';
     }
 
     @Override
-    public int compareTo(Object o) {
-        return 0;
+    public int compareTo(Contact o) {
+
+        int lastNameCompare = lastName.compareTo(o.lastName);
+        if (lastNameCompare == 0) {
+            int firstNameCompare = firstName.compareTo(o.firstName);
+            if (firstNameCompare == 0) {
+                return number.compareTo(o.number);
+            } else {
+                return firstNameCompare;
+            }
+        }
+        return lastNameCompare;
     }
 }

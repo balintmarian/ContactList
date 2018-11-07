@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -32,5 +33,13 @@ public class ContactGroup {
         for (Contact contact : contactGroup) {
             System.out.println(contact.toString());
         }
+    }
+    public Set<String> getContactGroupToString(){
+        Set<String> stringSet=new HashSet<>();
+
+        for (Contact contact : contactGroup) {
+            stringSet.add(contact.toString());
+        }
+        return stringSet;
     }
 }

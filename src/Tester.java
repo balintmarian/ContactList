@@ -5,24 +5,24 @@ public class Tester {
     public static void main(String[] args) {
 
         Agenda a = new Agenda();
-        showMenu(a);
+
 //        Contact c1=new Contact("Ionita","Maricica","0723");
 //        Contact c2=new Contact("Ilcica","Maricica","0724");
 //        Contact c3=new Contact("Costescu","Maricica","0725");
 
 
-//        a.addContact("Maricica", "Ionescu", "1234567890");
-//        a.addContact("ghita", "Ionescu", "1234567890");
-//        a.addContact("craciun", "Ionescu", "1234567890");
-//        a.addContact("craciun", "popica", "1234567890");
-//        a.addContact("hue1", "Hue", "1234567890");
-//        a.addContact("hue1", "huehue", "1234567890");
-//        a.addContact("a", "a", "1");
-//        a.showContacts();
-//        // a.editContact(enterContact());
+        a.addContact("Maricica", "Ionescu", "1234567890");
+        a.addContact("ghita", "Ionescu", "1234567890");
+        a.addContact("craciun", "Ionescu", "1234567890");
+        a.addContact("craciun", "popica", "1234567890");
+        a.addContact("hue1", "Hue", "1234567890");
+        a.addContact("hue1", "huehue", "1234567890");
+        a.addContact("a", "a", "1");
+//        a.showContactsList();
+//        // a.editContact1(enterContact());
 //        a.deleteContact(enterContact());
-//        a.showContacts();
-
+//        a.showContactsList();
+        showMenu(a);
 
     }
 
@@ -37,27 +37,39 @@ public class Tester {
     }
 
     public static void doMenu(Agenda a) {
-        Scanner sc=new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         int menuIndex = sc.nextInt();
         switch (menuIndex) {
             case (1):
-                System.out.println("You are entering a contact");
-                a.addContact(enterContact());
+                System.out.println("You are adding a new contact");
+                a.addContact(a.inputContactLastName(),
+                        a.inputContactFirstName(),
+                        a.inputContactNumber());
                 showMenu(a);
                 break;
+
             case (2):
                 System.out.println("You are deleting a contact");
                 a.deleteContact(enterContact());
                 showMenu(a);
                 break;
+
             case (3):
                 System.out.println("You are editing a contact");
                 a.editContact(enterContact());
                 showMenu(a);
                 break;
+
             case (4):
                 System.out.println("You viewing all contacts");
-                a.showContacts();
+                a.showContactsList();
+                showMenu(a);
+                break;
+            case (0):
+                System.out.println("You are searching");
+                System.out.println("Type here:");
+                String lastName=a.inputContactLastName();
+                a.findContact(a.inputGeneral());
                 showMenu(a);
                 break;
         }

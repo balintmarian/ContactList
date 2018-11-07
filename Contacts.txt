@@ -1,0 +1,6 @@
+lastName,firstName,number
+Costescu,Ana,0722793132
+Costescu,Maria,07222784142
+Crucelnita,Bobi,0751575986
+Turcu,Mihai,0722681122
+Olaru,Andrei,0733442211

@@ -150,6 +150,10 @@ public class Agenda extends ContactGroup {
             }
         }
     }
+    public void readFromCSV(){
+
+    }
+
 }
 
 

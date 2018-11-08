@@ -1,4 +1,4 @@
-lastName,firstName,number
+LAST_NAME,FIRST_NAME,NUMBER
 Costescu,Ana,0722793132
 Costescu,Maria,07222784142
 Crucelnita,Bobi,0751575986

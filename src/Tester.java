@@ -4,9 +4,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Tester {
+
 
     public static void main(String[] args) {
 
@@ -24,12 +26,13 @@ public class Tester {
         a.addContact("hue1", "Hue", "1234567890");
         a.addContact("hue1", "huehue", "1234567890");
         a.addContact("a", "a", "1");
-//        a.showContactsList();
-//        // a.editContact1(enterContact());
-//        a.deleteContact(enterContact());
-//        a.showContactsList();
+
+        a.readFromCSV("Contacts.txt");
+
         showMenu(a);
-        String firstName_COL="firstName";
+
+
+
 
     }
 
@@ -38,6 +41,7 @@ public class Tester {
         System.out.println("2. Remove Contact");
         System.out.println("3. Edit Contact");
         System.out.println("4. Show Contacts");
+        System.out.println("5. Exit App");
         System.out.println("0. Search Contact...");
         System.out.println("Enter corresponding number");
         doMenu(a);
@@ -75,12 +79,15 @@ public class Tester {
             case ("0"):
                 System.out.println("You are searching");
                 System.out.println("Type here:");
-                String lastName=a.inputContactLastName();
+                String lastName = a.inputContactLastName();
                 a.findContact(a.inputGeneral());
                 showMenu(a);
                 break;
+            case("5"):
+                System.exit(5);
+                break;
             default:
-                System.out.println("Invalid input"+"\n"+"Accepted input: '0,1,2,3,4'");
+                System.out.println("Invalid input" + "\n" + "Accepted input: '0,1,2,3,4'");
                 showMenu(a);
                 break;
         }
@@ -98,33 +105,8 @@ public class Tester {
         Contact contact = new Contact(lastName, firstName, number);
         return contact;
     }
-    public static void readFromCSV(){
-        String firstName_COL="firstName";
-        String lastName_COL="lastName";
-        String number_COL="number";
-        String delimiter=",";
-        String line="";
-        ArrayList<String> lineArray= new ArrayList<>();
-        int index;
-        Map<String,> lineMap=new HashMap<>();
 
 
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("Contacts.txt"));
 
-            while(reader.readLine()!=null){
-               // ArrayList<String> lineArray=new ArrayList<>();
-                line=reader.readLine();
-                lineArray.add(line);
-
-            }
-        }catch(FileNotFoundException exception){
-            System.out.println("cant find file contacts");
-        }catch(IOException io){
-            System.out.println("IOException");
-        }
-
-
-    }
 
 }

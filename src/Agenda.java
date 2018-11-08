@@ -1,10 +1,13 @@
 
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.TreeMap;
+import java.io.*;
+import java.util.*;
 
 public class Agenda extends ContactGroup {
+    public  final String LAST_NAME = "LAST_NAME";
+    public  final String FIRST_NAME = "FIRST_NAME";
+    public  final String NUMBER = "NUMBER";
+    public final String DELIMITER=",";
+
     private Map<String, ContactGroup> agenda;
     private Scanner sc = new Scanner(System.in);
 
@@ -150,9 +153,51 @@ public class Agenda extends ContactGroup {
             }
         }
     }
-    public void readFromCSV(){
+    public void readFromCSV(String contactsFilePath) {
+       // String delimiter = ",";
+        String line;
+        Integer index;
+        Map<String, Integer> lineMap = new HashMap<>();
 
+        try(BufferedReader reader = new BufferedReader(new FileReader(contactsFilePath))) {
+
+            while ((line=reader.readLine()) != null) {
+
+                String[] stringArr = line.split(DELIMITER);
+
+                if (line.contains(LAST_NAME) && line.contains(FIRST_NAME) && line.contains(NUMBER)) {
+                    for (index = 0; index < stringArr.length; index++) {
+                        switch(stringArr[index]) {
+                            case LAST_NAME:
+                                lineMap.put(LAST_NAME,index);
+                                break;
+                            case FIRST_NAME:
+                                lineMap.put(FIRST_NAME,index);
+                                break;
+                            case NUMBER:
+                                lineMap.put(NUMBER,index);
+                                break;
+                            default:
+                                System.out.println("unknown column " +stringArr[index]);
+                                break;
+                        }
+                    }
+                }else{
+                    addContact(stringArr[lineMap.get(LAST_NAME)],
+                            stringArr[lineMap.get(FIRST_NAME)],
+                            stringArr[lineMap.get(NUMBER)]);
+                }
+            }
+        } catch (FileNotFoundException exception) {
+            System.out.println("cant find file contacts");
+        } catch (IOException io) {
+            System.out.println("IOException");
+        }
     }
+//    public void writeTiCSV(){
+//        BufferedWriter writer=new BufferedWriter();
+//
+//    }
 
 }
 

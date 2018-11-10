@@ -23,15 +23,14 @@ public class Tester {
         a.addContact("ghita", "Ionescu", "1234567890");
         a.addContact("craciun", "Ionescu", "1234567890");
         a.addContact("craciun", "popica", "1234567890");
-        a.addContact("hue1", "Hue", "1234567890");
+        a.addContact("hue1", "hue", "1234567890");
         a.addContact("hue1", "huehue", "1234567890");
         a.addContact("a", "a", "1");
 
         a.readFromCSV("Contacts.txt");
-
+        //a.writeTiCSV("Contacts.txt");
+        //a.search("hue");
         showMenu(a);
-
-
 
 
     }
@@ -41,8 +40,8 @@ public class Tester {
         System.out.println("2. Remove Contact");
         System.out.println("3. Edit Contact");
         System.out.println("4. Show Contacts");
-        System.out.println("5. Exit App");
-        System.out.println("0. Search Contact...");
+        System.out.println("5. Search Contact...");
+        System.out.println("0. Exit App");
         System.out.println("Enter corresponding number");
         doMenu(a);
     }
@@ -76,14 +75,13 @@ public class Tester {
                 a.showContactsList();
                 showMenu(a);
                 break;
-            case ("0"):
+            case ("5"):
                 System.out.println("You are searching");
                 System.out.println("Type here:");
-                String lastName = a.inputContactLastName();
-                a.findContact(a.inputGeneral());
+                a.search(a.inputGeneral());
                 showMenu(a);
                 break;
-            case("5"):
+            case ("0"):
                 System.exit(5);
                 break;
             default:
@@ -105,8 +103,6 @@ public class Tester {
         Contact contact = new Contact(lastName, firstName, number);
         return contact;
     }
-
-
 
 
 }

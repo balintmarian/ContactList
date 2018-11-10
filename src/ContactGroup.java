@@ -34,6 +34,12 @@ public class ContactGroup {
             System.out.println(contact.toString());
         }
     }
+    public Contact getContactsFromGroup(){
+        for (Contact contact : contactGroup) {
+            return contact;
+        }
+        return null;
+    }
     public Set<String> getContactGroupToString(){
         Set<String> stringSet=new HashSet<>();
 

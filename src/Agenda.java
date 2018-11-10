@@ -1,19 +1,20 @@
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Agenda extends ContactGroup {
-    public  final String LAST_NAME = "LAST_NAME";
-    public  final String FIRST_NAME = "FIRST_NAME";
-    public  final String NUMBER = "NUMBER";
-    public final String DELIMITER=",";
+    public final String LAST_NAME = "LAST_NAME";
+    public final String FIRST_NAME = "FIRST_NAME";
+    public final String NUMBER = "NUMBER";
+    public final String DELIMITER = ",";
 
-    private Map<String, ContactGroup> agenda;
+    private Map<String, ContactGroup> agendaMap;
     private Scanner sc = new Scanner(System.in);
 
 
     public Agenda() {
-        this.agenda = new TreeMap<>();
+        this.agendaMap = new TreeMap<>();
     }
 
     public String inputContactLastName() {
@@ -40,8 +41,8 @@ public class Agenda extends ContactGroup {
         return input;
     }
 
-    public Map<String, ContactGroup> getAgenda() {
-        return agenda;
+    public Map<String, ContactGroup> getAgendaMap() {
+        return agendaMap;
     }
 
     public void addContact(String lastName, String firstName, String number) {
@@ -52,12 +53,12 @@ public class Agenda extends ContactGroup {
 
     private void addContactToGroup(Contact contact) {
         String firstLetter = contact.getFirstLetter();
-        ContactGroup contactGroup = agenda.get(firstLetter);
+        ContactGroup contactGroup = agendaMap.get(firstLetter);
 
         if (contactGroup == null) {
             // creem un nou contact daca nu exista pt keya cautata
             contactGroup = new ContactGroup();
-            agenda.put(firstLetter.toUpperCase(), contactGroup);
+            agendaMap.put(firstLetter.toUpperCase(), contactGroup);
         }
         // altfel, adaugam direct contactul
         contactGroup.addContact(contact);
@@ -87,102 +88,123 @@ public class Agenda extends ContactGroup {
 //                }
 //            }
 //        }
-//        System.out.println("no such contact found in agenda ");
+//        System.out.println("no such contact found in agendaMap ");
 //        return null;
 //    }
 
     public ContactGroup getContactGroupByLetter(Contact contact) {
         String firstLetter = contact.getFirstLetter();
 
-        return agenda.get(firstLetter.toUpperCase());
+        return agendaMap.get(firstLetter.toUpperCase());
     }
 
     public ContactGroup getContactGroupByLetter() {
         System.out.println("Enter last name or first letter of last name");
         String firstLetter = inputGeneral().substring(0, 1);
 
-        return agenda.get(firstLetter.toUpperCase());
+        return agendaMap.get(firstLetter.toUpperCase());
     }
 
     public void showContactsList() {
 
-        for (Map.Entry<String, ContactGroup> entry : agenda.entrySet()) {
+        for (Map.Entry<String, ContactGroup> entry : agendaMap.entrySet()) {
             System.out.println(entry.getKey());
             ContactGroup contactGroup = entry.getValue();
             contactGroup.showContactGroup();
         }
     }
 //    private void showTheContact(){
-//        for (Map.Entry<String, ContactGroup> entry : agenda.entrySet()) {
+//        for (Map.Entry<String, ContactGroup> entry : agendaMap.entrySet()) {
 //            System.out.println(entry.getKey());
 //            ContactGroup contactGroup = entry.getValue();
 //            contactGroup.
 //        }
 //    }
 
+    /*
+        private String getCorrespondingField(String searchString, ContactGroup contactGroup) {
+            String foundField = new String();
+            //Set<String> contactGroup = getContactGroupByLetter().getContactGroupToString();
+            Set<String> contactGroupStringSet = contactGroup.getContactGroupToString();
+            for (String field : contactGroupStringSet) {
+                if (field.toLowerCase().contains(searchString.toLowerCase())) {
+                    System.out.println(field);
+                    foundField = field;
+                } else {
+                    System.out.println("cant find field");
+                }
+            }
+            return foundField;
+            //startsWith()
+        }
 
-    private String getCorrespondingField(String searchString, ContactGroup contactGroup) {
-        String foundField = new String();
-        //Set<String> contactGroup = getContactGroupByLetter().getContactGroupToString();
-        Set<String> contactGroupStringSet = contactGroup.getContactGroupToString();
-        for (String field : contactGroupStringSet) {
-            if (field.toLowerCase().contains(searchString.toLowerCase())) {
-                System.out.println(field);
-                foundField = field;
-            }else{
-                System.out.println("cant find field");
+        public void findContact(String searchString) {
+            ContactGroup contactGroup = getContactGroupByLetter();
+            String field = getCorrespondingField(searchString, contactGroup);
+
+            for (Contact contact : contactGroup.getContactGroup()) {
+
+                if (contact.getLastName().equalsIgnoreCase(field) ||
+                        contact.getFirstName().equalsIgnoreCase(field) ||
+                        contact.getNumber().equalsIgnoreCase(field)) {
+                    System.out.println(contact.toString());
+                } else {
+                    System.out.println("cant find contact from field0");
+                }
             }
         }
-        return foundField;
-        //startsWith()
-    }
-    //todo: search  the agenda||ContactGroup and find the corresponding Contact for the field resulted in getCorrespondingField()
+    */ //old search method-not as good
+    public void search(String searchString) {
+        List<Contact> flatListContacts = new ArrayList<>();//get flat agenda map
+        List<Contact> foundContacts = new ArrayList<>();
+        for (String key : agendaMap.keySet()) {
 
-    public void findContact(String searchString) {
-        ContactGroup contactGroup = getContactGroupByLetter();
-        String field = getCorrespondingField(searchString, contactGroup);
+            // flatListContacts.addAll(agendaMap.get(key).getContactGroup().stream().collect(Collectors.toList()));
+            flatListContacts.addAll(new ArrayList<>(agendaMap.get(key).getContactGroup()));
 
-        for (Contact contact : contactGroup.getContactGroup()) {
-
-            if (contact.getLastName().equalsIgnoreCase(field) ||
-                    contact.getFirstName().equalsIgnoreCase(field) ||
-                    contact.getNumber().equalsIgnoreCase(field)) {
+        }
+        for (Contact contact : flatListContacts) {
+            if (contact.getFirstName().toLowerCase().contains(searchString)
+                    || contact.getLastName().toLowerCase().contains(searchString)
+                    || contact.getNumber().contains(searchString)) {
                 System.out.println(contact.toString());
-            }else{
-                System.out.println("cant find contact from field0");
             }
         }
+        //flatListContacts.forEach(System.out::println);//just to check all contacts
+//        flatListContacts.stream()
+//                .filter(contact -> contact.getLastName().contains(searchString))
+//                .collect(Collectors.toList());//somehow doesn't work
     }
+
     public void readFromCSV(String contactsFilePath) {
-       // String delimiter = ",";
+        // String delimiter = ",";
         String line;
-        Integer index;
         Map<String, Integer> lineMap = new HashMap<>();
 
-        try(BufferedReader reader = new BufferedReader(new FileReader(contactsFilePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(contactsFilePath))) {
 
-            while ((line=reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
 
                 String[] stringArr = line.split(DELIMITER);
 
                 if (line.contains(LAST_NAME) && line.contains(FIRST_NAME) && line.contains(NUMBER)) {
-                    for (index = 0; index < stringArr.length; index++) {
-                        switch(stringArr[index]) {
+                    for (Integer index = 0; index < stringArr.length; index++) {
+                        switch (stringArr[index]) {
                             case LAST_NAME:
-                                lineMap.put(LAST_NAME,index);
+                                lineMap.put(LAST_NAME, index);
                                 break;
                             case FIRST_NAME:
-                                lineMap.put(FIRST_NAME,index);
+                                lineMap.put(FIRST_NAME, index);
                                 break;
                             case NUMBER:
-                                lineMap.put(NUMBER,index);
+                                lineMap.put(NUMBER, index);
                                 break;
                             default:
-                                System.out.println("unknown column " +stringArr[index]);
+                                System.out.println("unknown column " + stringArr[index]);
                                 break;
                         }
                     }
-                }else{
+                } else {
                     addContact(stringArr[lineMap.get(LAST_NAME)],
                             stringArr[lineMap.get(FIRST_NAME)],
                             stringArr[lineMap.get(NUMBER)]);
@@ -194,10 +216,33 @@ public class Agenda extends ContactGroup {
             System.out.println("IOException");
         }
     }
-//    public void writeTiCSV(){
-//        BufferedWriter writer=new BufferedWriter();
+
+//    public void writeTiCSV(String contactsFilePath) {
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(contactsFilePath))) {
 //
+//            writer.write("hue",csvFileCharacterCounter(contactsFilePath),"Number of characters as int");
+//
+//        } catch (FileNotFoundException f) {
+//            System.out.println("Cant find file  ");
+//        } catch (IOException io) {
+//            System.out.println("Cant find file IOEXEPTION");
+//        }
 //    }
+    public int csvFileCharacterCounter(String contactsFilePath){
+        String line;
+        int charCounter=0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(contactsFilePath))) {
+            while ((line = reader.readLine()) != null) {
+                charCounter+=line.length();
+            }
+
+        }catch (FileNotFoundException exception) {
+            System.out.println("cant find file contacts");
+        } catch (IOException io) {
+            System.out.println("IOException");
+        }
+        return charCounter;
+    }
 
 }
 

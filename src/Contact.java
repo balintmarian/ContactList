@@ -72,15 +72,15 @@ public class Contact implements Comparable<Contact> {
     @Override
     public int compareTo(Contact o) {
 
-        int lastNameCompare = lastName.compareTo(o.lastName);
-        if (lastNameCompare == 0) {
+        int numberCompare = number.compareTo(o.number);
+        if (numberCompare == 0) {
             int firstNameCompare = firstName.compareTo(o.firstName);
             if (firstNameCompare == 0) {
-                return number.compareTo(o.number);
+                return lastName.compareTo(o.lastName);
             } else {
                 return firstNameCompare;
             }
         }
-        return lastNameCompare;
+        return numberCompare;
     }
 }

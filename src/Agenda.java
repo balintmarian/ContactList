@@ -1,7 +1,6 @@
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Agenda extends ContactGroup {
     public final String LAST_NAME = "LAST_NAME";
@@ -155,26 +154,33 @@ public class Agenda extends ContactGroup {
         }
     */ //old search method-not as good
     public void search(String searchString) {
-        List<Contact> flatListContacts = new ArrayList<>();//get flat agenda map
+        //get flat agenda map
         List<Contact> foundContacts = new ArrayList<>();
-        for (String key : agendaMap.keySet()) {
-
-            // flatListContacts.addAll(agendaMap.get(key).getContactGroup().stream().collect(Collectors.toList()));
-            flatListContacts.addAll(new ArrayList<>(agendaMap.get(key).getContactGroup()));
-
-        }
-        for (Contact contact : flatListContacts) {
+        //TODO:need a separate method to flat all contacts!!!!!!!!!!!!!!!!!!!!!!needed in writer
+        for (Contact contact : flatMap()) {
             if (contact.getFirstName().toLowerCase().contains(searchString)
                     || contact.getLastName().toLowerCase().contains(searchString)
                     || contact.getNumber().contains(searchString)) {
                 System.out.println(contact.toString());
             }
         }
-        //flatListContacts.forEach(System.out::println);//just to check all contacts
+    }
+
+    private List<Contact> flatMap() {
+        List<Contact> flatListContacts = new ArrayList<>();
+        for (String key : agendaMap.keySet()) {
+
+            // flatListContacts.addAll(agendaMap.get(key).getContactGroup().stream().collect(Collectors.toList()));
+            flatListContacts.addAll(new ArrayList<>(agendaMap.get(key).getContactGroup()));
+
+        }
+        return flatListContacts;
+    }
+    //flatListContacts.forEach(System.out::println);//just to check all contacts
 //        flatListContacts.stream()
 //                .filter(contact -> contact.getLastName().contains(searchString))
 //                .collect(Collectors.toList());//somehow doesn't work
-    }
+
 
     public void readFromCSV(String contactsFilePath) {
         // String delimiter = ",";
@@ -217,32 +223,46 @@ public class Agenda extends ContactGroup {
         }
     }
 
-//    public void writeTiCSV(String contactsFilePath) {
-//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(contactsFilePath))) {
-//
-//            writer.write("hue",csvFileCharacterCounter(contactsFilePath),"Number of characters as int");
-//
-//        } catch (FileNotFoundException f) {
-//            System.out.println("Cant find file  ");
-//        } catch (IOException io) {
-//            System.out.println("Cant find file IOEXEPTION");
-//        }
-//    }
-    public int csvFileCharacterCounter(String contactsFilePath){
-        String line;
-        int charCounter=0;
-        try (BufferedReader reader = new BufferedReader(new FileReader(contactsFilePath))) {
-            while ((line = reader.readLine()) != null) {
-                charCounter+=line.length();
-            }
+    private String getCsvFormatContacts(){
+       // flatMap();
+        //List<String> contactListFormatted=new ArrayList<>();
+        String allContactsFormatted="";
+        for(Contact contact:flatMap()){
+           String line= contact.getLastName()+","+contact.getFirstName()+","+contact.getNumber()+"\n";
 
-        }catch (FileNotFoundException exception) {
-            System.out.println("cant find file contacts");
-        } catch (IOException io) {
-            System.out.println("IOException");
+            allContactsFormatted+=line;
         }
-        return charCounter;
+        return allContactsFormatted;
     }
+
+    public void writeToCSV(String contactsFilePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(contactsFilePath))) {
+            // writer.write("hue",csvFileCharacterCounter(contactsFilePath),"Number of characters as int");
+
+
+            writer.write("LAST_NAME,FIRST_NAME,NUMBER\n"+getCsvFormatContacts());//HARDCODED THE HEADER LINE
+            //TODO: make it write as its written, no hard code
+        } catch (FileNotFoundException f) {
+            System.out.println("Cant find file  ");
+        } catch (IOException io) {
+            System.out.println("Cant find file IOEXEPTION");
+        }
+    }
+//    public int csvFileCharacterCounter(String contactsFilePath){
+//        String line;
+//        int charCounter=0;
+//        try (BufferedReader reader = new BufferedReader(new FileReader(contactsFilePath))) {
+//            while ((line = reader.readLine()) != null) {
+//                charCounter+=line.length();
+//            }
+//
+//        }catch (FileNotFoundException exception) {
+//            System.out.println("cant find file contacts");
+//        } catch (IOException io) {
+//            System.out.println("IOException");
+//        }
+//        return charCounter;
+//    }// no longer needed to write file
 
 }
 

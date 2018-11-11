@@ -1,10 +1,3 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Tester {
@@ -28,9 +21,11 @@ public class Tester {
         a.addContact("a", "a", "1");
 
         a.readFromCSV("Contacts.txt");
-        //a.writeTiCSV("Contacts.txt");
+        //a.writeToCSV("Contacts.txt");
         //a.search("hue");
+       // a.getCsvFormatContacts();
         showMenu(a);
+
 
 
     }
@@ -82,6 +77,7 @@ public class Tester {
                 showMenu(a);
                 break;
             case ("0"):
+                a.writeToCSV("Contacts.txt");
                 System.exit(5);
                 break;
             default:
@@ -103,6 +99,4 @@ public class Tester {
         Contact contact = new Contact(lastName, firstName, number);
         return contact;
     }
-
-
 }

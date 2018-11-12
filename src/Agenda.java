@@ -228,7 +228,9 @@ public class Agenda extends ContactGroup {
         //List<String> contactListFormatted=new ArrayList<>();
         String allContactsFormatted="";
         for(Contact contact:flatMap()){
-           String line= contact.getLastName()+","+contact.getFirstName()+","+contact.getNumber()+"\n";
+           String line= contact.getLastName()
+                   +","+contact.getFirstName()
+                   +","+contact.getNumber()+"\n";
 
             allContactsFormatted+=line;
         }
@@ -241,7 +243,7 @@ public class Agenda extends ContactGroup {
 
 
             writer.write("LAST_NAME,FIRST_NAME,NUMBER\n"+getCsvFormatContacts());//HARDCODED THE HEADER LINE
-            //TODO: make it write as its written, no hard code
+            //TODO: make it write as read(), no hard code
         } catch (FileNotFoundException f) {
             System.out.println("Cant find file  ");
         } catch (IOException io) {

@@ -10,8 +10,8 @@ public class Contact implements Comparable<Contact> {
     }
 
     public Contact(String lastName, String firstName, String phoneNumber) {
-        this.lastName = lastName;
-        this.firstName = firstName;
+        this.lastName = firstCharUpperCase(lastName);//toUpperCase(lastName);->done
+        this.firstName = firstCharUpperCase(firstName);
         this.number = phoneNumber;
 
     }
@@ -83,4 +83,12 @@ public class Contact implements Comparable<Contact> {
         }
         return numberCompare;
     }
+    private String firstCharUpperCase(String string){
+        char[] array = string.toCharArray();
+        // Modify first element in array.
+        array[0] = Character.toUpperCase(array[0]);
+        // Return string.
+        return new String(array);
+    }
+
 }

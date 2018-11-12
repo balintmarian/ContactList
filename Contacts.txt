@@ -1,6 +1,8 @@
 LAST_NAME,FIRST_NAME,NUMBER
-Costescu,Ana,0722793132
-Costescu,Maria,07222784142
-Crucelnita,Bobi,0751575986
-Turcu,Mihai,0722681122
-Olaru,Andrei,0733442211
+A,A,1
+Craciun,Ionescu,1234567890
+Craciun,Popica,1234567890
+Ghita,Ionescu,1234567890
+Hue1,Hue,1234567890
+Hue1,Huehue,1234567890
+Maricica,Ionescu,1234567890

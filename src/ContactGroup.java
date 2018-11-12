@@ -12,7 +12,7 @@ public class ContactGroup {
         return contactGroup;
     }
 
-    public void addContact(Contact contact) {
+    public void addContactToContactGroup(Contact contact) {
         contactGroup.add(contact);
     }
 

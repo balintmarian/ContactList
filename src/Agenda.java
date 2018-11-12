@@ -31,7 +31,12 @@ public class Agenda extends ContactGroup {
     public String inputContactNumber() {
         System.out.println("number: ");
         String number = sc.next();
-        return number;
+        if (number.length() == 10) {
+            return number;
+        }else{
+            System.out.println("Phone number in Romania must be 10 numbers long");
+        }
+        return null;
     }
 
     public String inputGeneral() {
@@ -60,7 +65,7 @@ public class Agenda extends ContactGroup {
             agendaMap.put(firstLetter.toUpperCase(), contactGroup);
         }
         // altfel, adaugam direct contactul
-        contactGroup.addContact(contact);
+        contactGroup.addContactToContactGroup(contact);
     }
 
     public void deleteContact(Contact contact) {
@@ -223,16 +228,16 @@ public class Agenda extends ContactGroup {
         }
     }
 
-    private String getCsvFormatContacts(){
-       // flatMap();
+    private String getCsvFormatContacts() {
+        // flatMap();
         //List<String> contactListFormatted=new ArrayList<>();
-        String allContactsFormatted="";
-        for(Contact contact:flatMap()){
-           String line= contact.getLastName()
-                   +","+contact.getFirstName()
-                   +","+contact.getNumber()+"\n";
+        String allContactsFormatted = "";
+        for (Contact contact : flatMap()) {
+            String line = contact.getLastName()
+                    + "," + contact.getFirstName()
+                    + "," + contact.getNumber() + "\n";
 
-            allContactsFormatted+=line;
+            allContactsFormatted += line;
         }
         return allContactsFormatted;
     }
@@ -242,7 +247,7 @@ public class Agenda extends ContactGroup {
             // writer.write("hue",csvFileCharacterCounter(contactsFilePath),"Number of characters as int");
 
 
-            writer.write("LAST_NAME,FIRST_NAME,NUMBER\n"+getCsvFormatContacts());//HARDCODED THE HEADER LINE
+            writer.write("LAST_NAME,FIRST_NAME,NUMBER\n" + getCsvFormatContacts());//HARDCODED THE HEADER LINE
             //TODO: make it write as read(), no hard code
         } catch (FileNotFoundException f) {
             System.out.println("Cant find file  ");

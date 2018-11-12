@@ -55,13 +55,13 @@ public class Tester {
 
             case ("2"):
                 System.out.println("You are deleting a contact");
-                a.deleteContact(enterContact());
+                a.deleteContact(enterFullContact());
                 showMenu(a);
                 break;
 
             case ("3"):
                 System.out.println("You are editing a contact");
-                a.editContact(enterContact());
+                a.editContact(enterFullContact());
                 showMenu(a);
                 break;
 
@@ -87,7 +87,7 @@ public class Tester {
         }
     }
 
-    public static Contact enterContact() {
+    public static Contact enterFullContact() {
         Scanner sc = new Scanner(System.in);
         System.out.println("enter last name: ");
         String lastName = sc.nextLine();

@@ -1,16 +1,11 @@
 import java.util.Scanner;
 
 public class Tester {
-
+   static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
 
         Agenda a = new Agenda();
-
-//        Contact c1=new Contact("Ionita","Maricica","0723");
-//        Contact c2=new Contact("Ilcica","Maricica","0724");
-//        Contact c3=new Contact("Costescu","Maricica","0725");
-
 
         a.addContact("Maricica", "Ionescu", "1234567890");
         a.addContact("ghita", "Ionescu", "1234567890");
@@ -21,12 +16,7 @@ public class Tester {
         a.addContact("a", "a", "1");
 
         a.readFromCSV("Contacts.txt");
-        //a.writeToCSV("Contacts.txt");
-        //a.search("hue");
-       // a.getCsvFormatContacts();
         showMenu(a);
-
-
 
     }
 
@@ -42,7 +32,7 @@ public class Tester {
     }
 
     public static void doMenu(Agenda a) {
-        Scanner sc = new Scanner(System.in);
+
         String menuIndex = sc.next();
         switch (menuIndex) {
             case ("1"):
@@ -76,9 +66,12 @@ public class Tester {
                 a.search(a.inputGeneral());
                 showMenu(a);
                 break;
+            case("6"):
+                showBackupsMenu(a);
+                break;
             case ("0"):
                 a.writeToCSV("Contacts.txt");
-                System.exit(5);
+                System.exit(0);
                 break;
             default:
                 System.out.println("Invalid input" + "\n" + "Accepted input: '0,1,2,3,4'");
@@ -98,5 +91,24 @@ public class Tester {
 
         Contact contact = new Contact(lastName, firstName, number);
         return contact;
+    }
+    public static void showBackupsMenu(Agenda a){
+
+    BackUpManager manager=new BackUpManager();
+        System.out.println("1. Create Backup");
+        System.out.println("1. View Backups");
+        System.out.println("1. Load Backup");
+        System.out.println("1. Remove Backup");
+        System.out.println("Enter corresponding number");
+        doShowBackupsMenu(a);
+    }
+    public static void doShowBackupsMenu(Agenda a){
+        BackUpManager manager=new BackUpManager();
+
+        String menuIndex = sc.next();
+        switch (menuIndex) {
+            case ("1"):
+                manager.createBackup(a.getCsvFormatContacts());
+                break;
     }
 }

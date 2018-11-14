@@ -1,8 +1,9 @@
 LAST_NAME,FIRST_NAME,NUMBER
-A,A,1
 Craciun,Ionescu,1234567890
 Craciun,Popica,1234567890
+Gogoasa,Marius,0722793556
 Ghita,Ionescu,1234567890
+Gogoasa,Ion,8722794040
 Hue1,Hue,1234567890
 Hue1,Huehue,1234567890
 Maricica,Ionescu,1234567890

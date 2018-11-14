@@ -33,8 +33,9 @@ public class Agenda extends ContactGroup {
         String number = sc.next();
         if (number.length() == 10) {
             return number;
-        }else{
+        } else {
             System.out.println("Phone number in Romania must be 10 numbers long");
+            inputContactNumber();
         }
         return null;
     }
@@ -161,7 +162,7 @@ public class Agenda extends ContactGroup {
     public void search(String searchString) {
         //get flat agenda map
         List<Contact> foundContacts = new ArrayList<>();
-        //TODO:need a separate method to flat all contacts!!!!!!!!!!!!!!!!!!!!!!needed in writer
+
         for (Contact contact : flatMap()) {
             if (contact.getFirstName().toLowerCase().contains(searchString)
                     || contact.getLastName().toLowerCase().contains(searchString)
@@ -228,7 +229,7 @@ public class Agenda extends ContactGroup {
         }
     }
 
-    private String getCsvFormatContacts() {
+    public String getCsvFormatContacts() {
         // flatMap();
         //List<String> contactListFormatted=new ArrayList<>();
         String allContactsFormatted = "";
@@ -244,18 +245,17 @@ public class Agenda extends ContactGroup {
 
     public void writeToCSV(String contactsFilePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(contactsFilePath))) {
-            // writer.write("hue",csvFileCharacterCounter(contactsFilePath),"Number of characters as int");
-
 
             writer.write("LAST_NAME,FIRST_NAME,NUMBER\n" + getCsvFormatContacts());//HARDCODED THE HEADER LINE
-            //TODO: make it write as read(), no hard code
+
         } catch (FileNotFoundException f) {
             System.out.println("Cant find file  ");
         } catch (IOException io) {
             System.out.println("Cant find file IOEXEPTION");
         }
     }
-//    public int csvFileCharacterCounter(String contactsFilePath){
+
+    //    public int csvFileCharacterCounter(String contactsFilePath){
 //        String line;
 //        int charCounter=0;
 //        try (BufferedReader reader = new BufferedReader(new FileReader(contactsFilePath))) {
